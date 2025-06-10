@@ -7,9 +7,9 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     [SerializeField] private int _heath;
     [SerializeField] private int _maxHealth;
 
-    public void TakeDamage()
+    public void TakeDamage(int dmg)
     {
-        _heath--;
+        _heath -= dmg;
         if( _heath <= 0)
         {
             Destroy(gameObject);
