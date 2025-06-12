@@ -14,6 +14,4 @@ public class Enemy : MonoBehaviour
 
         _agent.SetDestination(_walkPoint.position);
     }
-
-
 }
