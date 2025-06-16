@@ -40,8 +40,8 @@ namespace GameDevHQ.FileBase.Gatling_Gun
             TargetLogic();
         }
 
-  
-    void TargetLogic()
+
+        void TargetLogic()
         {
             if (_currentTarget != null)
             {
@@ -63,12 +63,10 @@ namespace GameDevHQ.FileBase.Gatling_Gun
                 _startWeaponNoise = true;
             }
         }
-
         void RotateBarrel()
         {
             _rotateBody.transform.LookAt(_currentTarget.position);
         }
-
         void DamageLogic()
         {
             _timer += Time.deltaTime;

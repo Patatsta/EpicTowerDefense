@@ -15,11 +15,9 @@ public class EnemyHealth : MonoBehaviour, IDamageable
             Destroy(gameObject);
         }
     }
-
     private void Start()
     {
         _heath = _maxHealth;
     }
-
-
 }
+

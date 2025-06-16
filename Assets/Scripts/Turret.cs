@@ -4,22 +4,15 @@ using UnityEngine;
 
 public abstract class Turret : MonoBehaviour
 {
-
-
     protected AudioSource _audioSource;
     protected bool _startWeaponNoise = true;
-
     protected Transform _currentTarget;
     [SerializeField] protected Transform _rotateBody;
-
     protected List<Transform> _enemiesInRange = new List<Transform>();
-   
     protected IDamageable _enemyHealth;
 
-   
     protected virtual void Start()
-    {
-        
+    {  
         _audioSource = GetComponent<AudioSource>();
     }
 
@@ -39,7 +32,6 @@ public abstract class Turret : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        print("enter");
         if (other == null) return;
         if (other.CompareTag("Enemy"))
         {
@@ -55,7 +47,6 @@ public abstract class Turret : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        print("exit");
         if (other == null) return;
         if (other.CompareTag("Enemy"))
         {
