@@ -1,23 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour, IDamageable
 {
-    [SerializeField] private int _heath;
+    [SerializeField] private int _health;
     [SerializeField] private int _maxHealth;
+    [SerializeField] private int _warfunds;
+
+    private bool _isDead = false;
 
     public void TakeDamage(int dmg)
     {
-        _heath -= dmg;
-        if( _heath <= 0)
+        if (_isDead) return;
+
+        _health -= dmg;
+        if (_health <= 0)
         {
-            Destroy(gameObject);
+            Die();
         }
     }
+
+    private void Die()
+    {
+        if (_isDead) return;
+
+        _isDead = true;
+        GameManager.Instance.AddWarFunds(_warfunds);
+        Destroy(gameObject);
+    }
+
     private void Start()
     {
-        _heath = _maxHealth;
+        _health = _maxHealth;
     }
 }
+
 
