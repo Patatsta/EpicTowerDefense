@@ -5,7 +5,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-
+    [SerializeField] private int _hP = 10;
+   
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -26,6 +27,8 @@ public class GameManager : MonoBehaviour
         _warfunds = 300;
         print(_warfunds);
         UpdateUIManager();
+        UIManager.Instance.UpdateHP(_hP);
+        
     }
 
     public void AddWarFunds(int funds)
@@ -45,5 +48,18 @@ public class GameManager : MonoBehaviour
     {
         UIManager.Instance.UpdateWarfunds(_warfunds);
     }
+
+    public void LoseHP()
+    {
+        _hP--;
+        UIManager.Instance.UpdateHP(_hP);
+        print(_hP);
+        if(_hP <= 0)
+        {
+            Debug.Log("EndGame");
+        }
+    }
+
+
 }
 

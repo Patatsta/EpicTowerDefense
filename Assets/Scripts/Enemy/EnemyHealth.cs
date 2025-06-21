@@ -25,12 +25,18 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
         _isDead = true;
         GameManager.Instance.AddWarFunds(_warfunds);
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
     private void Start()
     {
         _health = _maxHealth;
+    }
+
+    private void OnEnable()
+    {
+        _health = _maxHealth;
+        _isDead = false;
     }
 }
 

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 483489680709696763}
   - component: {fileID: 8582125291900613969}
   - component: {fileID: 1848508136441257219}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -100,7 +100,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1402c980dde3774a81c178fc77d977f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _walkPoint: {fileID: 0}
 --- !u!114 &4253779270786631881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,6 +112,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e5194692627b2e4f912dbcdf11173cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _health: 100
+  _maxHealth: 50
+  _warfunds: 100
 --- !u!136 &483489680709696763
 CapsuleCollider:
   m_ObjectHideFlags: 0

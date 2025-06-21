@@ -7,28 +7,47 @@ public abstract class Turret : MonoBehaviour
     protected AudioSource _audioSource;
     protected bool _startWeaponNoise = true;
     protected Transform _currentTarget;
-    [SerializeField] protected Transform _rotateBody;
+    protected Transform _rotateBody;
+    [SerializeField] protected Transform _rotateSingle;
+    [SerializeField] protected Transform _rotateDouble;
+    [SerializeField] protected GameObject _singleTurret;
+    [SerializeField] protected GameObject _doubleTurret;
+
     protected List<Transform> _enemiesInRange = new List<Transform>();
     protected IDamageable _enemyHealth;
 
     protected virtual void Start()
     {  
         _audioSource = GetComponent<AudioSource>();
+     
+        _rotateBody = _rotateSingle;
     }
-
+    protected void OnEnable()
+    {
+        _singleTurret.SetActive(true);
+        _doubleTurret.SetActive(false);
+    }
     protected virtual void Update()
     {
-        if(_currentTarget == null && _enemiesInRange.Count > 1)
+        
+        _enemiesInRange.RemoveAll(enemy => enemy == null || !enemy.gameObject.activeInHierarchy);
+
+       
+        if (_currentTarget == null && _enemiesInRange.Count > 0)
         {
-            _enemiesInRange.RemoveAt(0);
-            if (_enemiesInRange[0] != null)
-            {
-                _enemyHealth = _enemiesInRange[0].GetComponent<IDamageable>();
-                _currentTarget = _enemiesInRange[0];
-            }
-            
+            _enemyHealth = _enemiesInRange[0].GetComponent<IDamageable>();
+            _currentTarget = _enemiesInRange[0];
+        }
+
+     
+        if (_currentTarget != null && !_currentTarget.gameObject.activeInHierarchy)
+        {
+            _enemiesInRange.Remove(_currentTarget);
+            _currentTarget = null;
+            _enemyHealth = null;
         }
     }
+
 
     private void OnTriggerEnter(Collider other)
     {

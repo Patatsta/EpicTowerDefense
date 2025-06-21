@@ -3,11 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-/*
- *@author GameDevHQ 
- * For support, visit gamedevhq.com
- */
-
 namespace GameDevHQ.FileBase.Missile_Launcher
 {
     public class Missile_Launcher : Turret
@@ -15,8 +10,12 @@ namespace GameDevHQ.FileBase.Missile_Launcher
         [SerializeField]
         private GameObject _missilePrefab; 
         
-        [SerializeField]
-        private GameObject[] _misslePositions; 
+        
+        private List<GameObject> _missilePositions = new List<GameObject>();
+
+        [SerializeField] private List<GameObject> _missileSingle = new List<GameObject>();
+        [SerializeField] private List<GameObject> _missileDouble = new List<GameObject>();
+
         [SerializeField]
         private float _destroyTime = 10.0f; 
 
@@ -32,7 +31,7 @@ namespace GameDevHQ.FileBase.Missile_Launcher
         protected override void Start()
         {
             base.Start();
-
+            _missilePositions = _missileSingle;
         }
 
         protected override void Update()
@@ -81,17 +80,17 @@ namespace GameDevHQ.FileBase.Missile_Launcher
             
           GameObject rocket = Instantiate(_missilePrefab) as GameObject;
 
-          rocket.transform.parent = _misslePositions[_missleIndex].transform;
+          rocket.transform.parent = _missilePositions[_missleIndex].transform;
           rocket.transform.localPosition = Vector3.zero; 
           rocket.transform.localEulerAngles = new Vector3(-90, 0, 0); 
           rocket.transform.parent = null;
 
             rocket.GetComponent<Missile>().AssignMissleRules(_currentTarget.position, _destroyTime, _flightDuration);
 
-            _misslePositions[_missleIndex].SetActive(false); 
+            _missilePositions[_missleIndex].SetActive(false); 
 
             _missleIndex++;
-            if (_missleIndex >= _misslePositions.Length)
+            if (_missleIndex >= _missilePositions.Count)
             {
                 _missleIndex = 0;
                 ResetLauncher();
@@ -101,11 +100,20 @@ namespace GameDevHQ.FileBase.Missile_Launcher
 
         void ResetLauncher()
         {
-            for (int i = 0; i < _misslePositions.Length; i++) 
+            for (int i = 0; i < _missilePositions.Count; i++) 
             {
 
-                _misslePositions[i].SetActive(true); 
+                _missilePositions[i].SetActive(true); 
             }
+        }
+
+        public void UpgradeTower()
+        {
+            print(1);
+            _singleTurret.SetActive(false);
+            _doubleTurret.SetActive(true);
+            _rotateBody = _rotateDouble;
+            _missilePositions = _missileDouble;
         }
     }
 }

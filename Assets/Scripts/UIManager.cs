@@ -6,7 +6,7 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
-
+    
     private void Awake()
     {
         if(Instance != null && Instance != this)
@@ -20,6 +20,9 @@ public class UIManager : MonoBehaviour
     }
 
     [SerializeField] private TMP_Text _warfundsText;
+    [SerializeField] private TMP_Text _hPText;
+    [SerializeField] private TMP_Text _waveCount;
+
     private void Start()
     {
         _warfundsText.text = 0.ToString();
@@ -28,5 +31,15 @@ public class UIManager : MonoBehaviour
     {
        
         _warfundsText.text = amount.ToString();
+    }
+
+    public void UpdateHP(int hp)
+    {
+        _hPText.text = hp.ToString();
+    }
+
+    public void UpdateWaveCount(int count)
+    {
+        _waveCount.text = count.ToString() + " / 20";
     }
 }
