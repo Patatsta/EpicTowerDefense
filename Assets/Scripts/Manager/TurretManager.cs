@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TurretManager : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class TurretManager : MonoBehaviour
     [SerializeField] private GameObject _missileLauncher;
     [SerializeField] private GameObject _gatPlaceHolder, _misPlaceHolder, _currentPlaceHolder;
     [SerializeField] private GameObject _redMisPlaceHolder, _redGatPlaceHodler;
-   
+    public GameObject _upgradeButton, _dismantelButton;
     public bool IsEnabled { get; private set; } = false;
  
 
@@ -16,6 +17,8 @@ public class TurretManager : MonoBehaviour
 
     private void Start()
     {
+        _upgradeButton.SetActive(false);
+        _dismantelButton.SetActive(false);
         _turretCollider = GetComponent<Collider>();
         _gatlingGun.SetActive(false);
         _missileLauncher.SetActive(false);

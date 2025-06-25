@@ -69,11 +69,15 @@ public class UIManager : MonoBehaviour
         _waveCount.text = count.ToString() + " / 20";
     }
 
+    private Turret _currentTur;
+
     public void UpdateUpgrade(Turret tur)
     {
+        _currentTur = tur;
         if (tur._weaponIndex == 0)
         {
-            _upgradeGatImage.SetActive(true);
+          
+            
             _gatUpText.text = PlacementManager.Instance._turretStats[tur._weaponIndex].upgradeCost.ToString();
             _upgradeGatButton.onClick.RemoveAllListeners();
             _upgradeGatButton.onClick.AddListener(tur.Upgrade);
@@ -82,15 +86,18 @@ public class UIManager : MonoBehaviour
         }
         else if (tur._weaponIndex == 1)
         {
-            _upgradeLaunchImage.SetActive(true);
             _launchUpText.text = PlacementManager.Instance._turretStats[tur._weaponIndex].upgradeCost.ToString();
             _upgradeLaunchButton.onClick.RemoveAllListeners();
             _upgradeLaunchButton.onClick.AddListener(tur.Upgrade);
             _upgradeLaunchButton.onClick.AddListener(ButtonPress);
         }
-        print(PlacementManager.Instance._turretStats[tur._weaponIndex].singleRefund);
+
+        tur._turretManager._upgradeButton.SetActive(true);
+
+        tur._turretManager._dismantelButton.SetActive(true);
+
         _dismantelRefundText.text = PlacementManager.Instance._turretStats[tur._weaponIndex].singleRefund.ToString();
-        _dismantelImage.SetActive(true);
+    
         _acceptDismantel.onClick.RemoveAllListeners();
         _acceptDismantel.onClick.AddListener(tur.Dismantel);
         _acceptDismantel.onClick.AddListener(ButtonPress);
@@ -101,10 +108,22 @@ public class UIManager : MonoBehaviour
     {
       
         _dismantelRefundText.text = PlacementManager.Instance._turretStats[tur._weaponIndex].doubleRefund.ToString();
-        _dismantelImage.SetActive(true);
+        tur._turretManager._dismantelButton.SetActive(true);
         _acceptDismantel.onClick.RemoveAllListeners();
         _acceptDismantel.onClick.AddListener(tur.Dismantel);
         _acceptDismantel.onClick.AddListener(ButtonPress);
+    }
+
+    public void UpgradeButtonPressed()
+    {
+        if(_currentTur._weaponIndex == 0)
+        {
+            _upgradeGatImage.SetActive(true);
+        }
+        else
+        {
+            _upgradeLaunchImage.SetActive(true);
+        }
     }
 
     public void CancelUpgrade()

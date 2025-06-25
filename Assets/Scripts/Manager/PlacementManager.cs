@@ -94,6 +94,8 @@ public class PlacementManager : MonoBehaviour
             }
             if (_currentTurret != null)
             {
+                _currentTurret._turretManager._upgradeButton.SetActive(false);
+                _currentTurret._turretManager._dismantelButton.SetActive(false);
                 _currentTurret = null;
             }
         }
@@ -119,8 +121,9 @@ public class PlacementManager : MonoBehaviour
             else
             {
                 UIManager.Instance.UpdateNoUpgrade(_currentTurret);
-            }   
+            }
         }
+      
     }
 
     public void StartPlacing(int i)

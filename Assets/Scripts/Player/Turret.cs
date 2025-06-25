@@ -12,7 +12,7 @@ public abstract class Turret : MonoBehaviour
     [SerializeField] protected Transform _rotateDouble;
     [SerializeField] protected GameObject _singleTurret;
     [SerializeField] protected GameObject _doubleTurret;
-    [SerializeField] protected TurretManager _turretManager;
+    public TurretManager _turretManager;
     protected List<Transform> _enemiesInRange = new List<Transform>();
     protected IDamageable _enemyHealth;
 

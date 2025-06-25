@@ -25,7 +25,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         _warfunds = 300;
-        print(_warfunds);
         UpdateUIManager();
         UIManager.Instance.UpdateHP(_hP);
         
@@ -33,7 +32,6 @@ public class GameManager : MonoBehaviour
 
     public void AddWarFunds(int funds)
     {
-        print(funds);
         _warfunds += funds;
         UpdateUIManager();
     }

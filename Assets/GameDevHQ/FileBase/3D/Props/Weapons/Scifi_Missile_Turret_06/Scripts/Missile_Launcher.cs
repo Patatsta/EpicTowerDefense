@@ -126,25 +126,24 @@ namespace GameDevHQ.FileBase.Missile_Launcher
         private void SetWeaponMode(bool upgraded)
         {
             _isUpgrade = upgraded;
-            print(_isUpgrade);
+      
             _missilePositions = upgraded ? _missileDouble : _missileSingle;
-            _tickrate = upgraded ? _tickrate / 2 : _tickrate * 2; // Beispiel, je nach Balance
+            _tickrate = upgraded ? _tickrate / 2 : _tickrate * 2; 
 
             _singleTurret.SetActive(!upgraded);
             _doubleTurret.SetActive(upgraded);
 
             _rotateBody = upgraded ? _rotateDouble : _rotateSingle;
 
-            // Audio-Clip hier ggf. setzen
+       
             if (_audioSource != null)
             {
                 _audioSource.Stop();
-                // Set audio clip je nach Upgrade-Status, wenn du unterschiedliche Sounds hast
-                // _audioSource.clip = upgraded ? upgradedClip : normalClip;
+
                 _startWeaponNoise = true;
             }
 
-            ResetLauncher(); // Alle Positions wieder aktivieren
+            ResetLauncher(); 
             _timer = 0f;
             _missleIndex = 0;
             _currentTarget = null;
