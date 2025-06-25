@@ -1,18 +1,41 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyHealth : MonoBehaviour, IDamageable
 {
-    [SerializeField] private int _health;
-    [SerializeField] private int _maxHealth;
-    [SerializeField] private int _warfunds;
+    [SerializeField] private int _maxHealth = 100;
+    [SerializeField] private int _warfunds = 10;
+    [SerializeField] private Slider _healthSlider;
 
+    private int _health;
     private bool _isDead = false;
+
+    private void Start()
+    {
+        // Initial Setup
+        _healthSlider.maxValue = _maxHealth;
+        ResetHealth();
+    }
+
+    private void OnEnable()
+    {
+        ResetHealth();
+    }
+
+    private void ResetHealth()
+    {
+        _health = _maxHealth;
+        _healthSlider.value = _health;
+        _isDead = false;
+    }
 
     public void TakeDamage(int dmg)
     {
         if (_isDead) return;
 
         _health -= dmg;
+        _healthSlider.value = _health;
+
         if (_health <= 0)
         {
             Die();
@@ -25,19 +48,11 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
         _isDead = true;
         GameManager.Instance.AddWarFunds(_warfunds);
+
+        // Statt Zerstören: Deaktiviere das GameObject (für Pooling)
         gameObject.SetActive(false);
     }
-
-    private void Start()
-    {
-        _health = _maxHealth;
-    }
-
-    private void OnEnable()
-    {
-        _health = _maxHealth;
-        _isDead = false;
-    }
 }
+
 
 

@@ -1,0 +1,100 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public abstract class Turret : MonoBehaviour
+{
+    protected AudioSource _audioSource;
+    protected bool _startWeaponNoise = true;
+    protected Transform _currentTarget;
+    protected Transform _rotateBody;
+    [SerializeField] protected Transform _rotateSingle;
+    [SerializeField] protected Transform _rotateDouble;
+    [SerializeField] protected GameObject _singleTurret;
+    [SerializeField] protected GameObject _doubleTurret;
+    [SerializeField] protected TurretManager _turretManager;
+    protected List<Transform> _enemiesInRange = new List<Transform>();
+    protected IDamageable _enemyHealth;
+
+    public int _weaponIndex;
+    public bool _isUpgrade { get; protected set; }
+   
+    protected virtual void Start()
+    {  
+        _audioSource = GetComponent<AudioSource>();
+     
+        _rotateBody = _rotateSingle;
+    }
+    protected void OnEnable()
+    {
+        _singleTurret.SetActive(true);
+        _doubleTurret.SetActive(false);
+
+        // Reset logic
+        _enemiesInRange.Clear();
+        _currentTarget = null;
+        _enemyHealth = null;
+        _startWeaponNoise = true;
+    }
+
+    protected virtual void Update()
+    {
+       
+        _enemiesInRange.RemoveAll(enemy => enemy == null || !enemy.gameObject.activeInHierarchy);
+
+       
+        if (_currentTarget == null && _enemiesInRange.Count > 0)
+        {
+            _enemyHealth = _enemiesInRange[0].GetComponent<IDamageable>();
+            _currentTarget = _enemiesInRange[0];
+        }
+
+     
+        if (_currentTarget != null && !_currentTarget.gameObject.activeInHierarchy)
+        {
+            _enemiesInRange.Remove(_currentTarget);
+            _currentTarget = null;
+            _enemyHealth = null;
+        }
+    }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other == null) return;
+        if (other.CompareTag("Enemy"))
+        {
+           
+            _enemiesInRange.Add(other.transform);
+            if (_currentTarget == null)
+            {
+                _enemyHealth = other.GetComponent<IDamageable>();
+                _currentTarget = other.transform;
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other == null) return;
+        if (other.CompareTag("Enemy"))
+        {
+          
+            _enemiesInRange.Remove(other.transform);
+            if (_enemiesInRange.Count > 0)
+            {
+                _enemyHealth = other.GetComponent<IDamageable>();
+                _currentTarget = _enemiesInRange[0];
+            }
+            else
+            {
+                _enemyHealth = null;
+                _currentTarget = null;
+            }
+        }
+    }
+
+    public abstract void Upgrade();
+    public abstract void Dismantel();
+  
+}

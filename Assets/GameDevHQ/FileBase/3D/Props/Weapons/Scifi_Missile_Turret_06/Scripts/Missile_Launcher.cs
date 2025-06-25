@@ -107,14 +107,49 @@ namespace GameDevHQ.FileBase.Missile_Launcher
             }
         }
 
-        public void UpgradeTower()
+
+        public override void Upgrade()
         {
-            print(1);
-            _singleTurret.SetActive(false);
-            _doubleTurret.SetActive(true);
-            _rotateBody = _rotateDouble;
-            _missilePositions = _missileDouble;
+            if (GameManager.Instance._warfunds >= PlacementManager.Instance._turretStats[1].upgradeCost)
+            {
+                GameManager.Instance.PlaceTurret(PlacementManager.Instance._turretStats[1].upgradeCost);
+                SetWeaponMode(true);
+            }
         }
+
+        public override void Dismantel()
+        {
+            SetWeaponMode(false);
+            _turretManager.Dismantel(_weaponIndex);
+            _audioSource.Stop();
+        }
+        private void SetWeaponMode(bool upgraded)
+        {
+            _isUpgrade = upgraded;
+            _missilePositions = upgraded ? _missileDouble : _missileSingle;
+            _tickrate = upgraded ? _tickrate / 2 : _tickrate * 2; // Beispiel, je nach Balance
+
+            _singleTurret.SetActive(!upgraded);
+            _doubleTurret.SetActive(upgraded);
+
+            _rotateBody = upgraded ? _rotateDouble : _rotateSingle;
+
+            // Audio-Clip hier ggf. setzen
+            if (_audioSource != null)
+            {
+                _audioSource.Stop();
+                // Set audio clip je nach Upgrade-Status, wenn du unterschiedliche Sounds hast
+                // _audioSource.clip = upgraded ? upgradedClip : normalClip;
+                _startWeaponNoise = true;
+            }
+
+            ResetLauncher(); // Alle Positions wieder aktivieren
+            _timer = 0f;
+            _missleIndex = 0;
+            _currentTarget = null;
+        }
+
+
     }
 }
 
