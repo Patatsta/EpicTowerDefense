@@ -119,13 +119,14 @@ namespace GameDevHQ.FileBase.Missile_Launcher
 
         public override void Dismantel()
         {
-            SetWeaponMode(false);
-            _turretManager.Dismantel(_weaponIndex);
+            _turretManager.Dismantel(_weaponIndex, _isUpgrade);
+            SetWeaponMode(false);        
             _audioSource.Stop();
         }
         private void SetWeaponMode(bool upgraded)
         {
             _isUpgrade = upgraded;
+            print(_isUpgrade);
             _missilePositions = upgraded ? _missileDouble : _missileSingle;
             _tickrate = upgraded ? _tickrate / 2 : _tickrate * 2; // Beispiel, je nach Balance
 

@@ -139,7 +139,7 @@ public class Gatling_Gun : Turret
 
     public override void Dismantel()
     {
-        _turretManager.Dismantel(_weaponIndex);
+        _turretManager.Dismantel(_weaponIndex, _isUpgrade);
         SetWeaponMode(upgraded : false);
     }
 }

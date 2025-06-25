@@ -145,6 +145,6 @@ public class PlacementManager : MonoBehaviour
         public int cost;
         public int upgradeCost;
         public int singleRefund;
-        public int doubelRefund;
+        public int doubleRefund;
     }
 }

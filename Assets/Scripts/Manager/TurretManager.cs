@@ -57,9 +57,11 @@ public class TurretManager : MonoBehaviour
         IsEnabled = true;
     }
 
-    public void Dismantel(int index)
+    public void Dismantel(int index, bool isUpgrade)
     {
-        GameManager.Instance.AddWarFunds(PlacementManager.Instance._turretStats[index].singleRefund);
+        int refund = isUpgrade ? PlacementManager.Instance._turretStats[index].doubleRefund : PlacementManager.Instance._turretStats[index].singleRefund;
+        print(refund);
+        GameManager.Instance.AddWarFunds(refund);
         IsEnabled = false;
         _gatlingGun.SetActive(false);
         _missileLauncher.SetActive(false);

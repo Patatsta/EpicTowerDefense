@@ -25,6 +25,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text _waveCount;
     [SerializeField] private GameObject _upgradeGatImage, _upgradeLaunchImage, _dismantelImage;
     [SerializeField] private Button _upgradeGatButton, _upgradeLaunchButton;
+    [SerializeField] private TMP_Text _launchUpText, _gatUpText;
     [SerializeField] private TMP_Text _statusText;
     [SerializeField] private TMP_Text _dismantelRefundText;
     [SerializeField] private Button _acceptDismantel;
@@ -73,6 +74,7 @@ public class UIManager : MonoBehaviour
         if (tur._weaponIndex == 0)
         {
             _upgradeGatImage.SetActive(true);
+            _gatUpText.text = PlacementManager.Instance._turretStats[tur._weaponIndex].upgradeCost.ToString();
             _upgradeGatButton.onClick.RemoveAllListeners();
             _upgradeGatButton.onClick.AddListener(tur.Upgrade);
             _upgradeGatButton.onClick.AddListener(ButtonPress);
@@ -81,10 +83,12 @@ public class UIManager : MonoBehaviour
         else if (tur._weaponIndex == 1)
         {
             _upgradeLaunchImage.SetActive(true);
+            _launchUpText.text = PlacementManager.Instance._turretStats[tur._weaponIndex].upgradeCost.ToString();
             _upgradeLaunchButton.onClick.RemoveAllListeners();
             _upgradeLaunchButton.onClick.AddListener(tur.Upgrade);
             _upgradeLaunchButton.onClick.AddListener(ButtonPress);
         }
+        print(PlacementManager.Instance._turretStats[tur._weaponIndex].singleRefund);
         _dismantelRefundText.text = PlacementManager.Instance._turretStats[tur._weaponIndex].singleRefund.ToString();
         _dismantelImage.SetActive(true);
         _acceptDismantel.onClick.RemoveAllListeners();
@@ -96,7 +100,7 @@ public class UIManager : MonoBehaviour
     public void UpdateNoUpgrade(Turret tur)
     {
       
-        _dismantelRefundText.text = PlacementManager.Instance._turretStats[tur._weaponIndex].singleRefund.ToString();
+        _dismantelRefundText.text = PlacementManager.Instance._turretStats[tur._weaponIndex].doubleRefund.ToString();
         _dismantelImage.SetActive(true);
         _acceptDismantel.onClick.RemoveAllListeners();
         _acceptDismantel.onClick.AddListener(tur.Dismantel);
