@@ -7,18 +7,6 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
-    
-    private void Awake()
-    {
-        if(Instance != null && Instance != this)
-        {
-            Debug.LogWarning("Duplicate GameManager detected, destroying this one.");
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
 
     [SerializeField] private TMP_Text _warfundsText;
     [SerializeField] private TMP_Text _hPText;
@@ -29,17 +17,50 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text _statusText;
     [SerializeField] private TMP_Text _dismantelRefundText;
     [SerializeField] private Button _acceptDismantel;
+    [SerializeField] private GameObject _endScreen;
+    [SerializeField] private TMP_Text _endScreenText;
+    [SerializeField] private GameObject _gameUI;
+
+    [SerializeField] private Slider musicSlider;
+    [SerializeField] private Slider sfxSlider;
+    [SerializeField] private GameObject _pauseScreen;
+
+    private Turret _currentTur;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
 
     private void Start()
     {
-     
+        _pauseScreen.SetActive(false);
+        _gameUI.SetActive(true);
         _upgradeGatImage.SetActive(false);
         _upgradeLaunchImage.SetActive(false);
         _dismantelImage.SetActive(false);
+        _endScreen.SetActive(false);
+
+        if (musicSlider != null)
+        {
+            musicSlider.value = SoundManager.Instance.MusicVolume;
+            musicSlider.onValueChanged.AddListener(SetMusicVolume);
+        }
+
+        if (sfxSlider != null)
+        {
+            sfxSlider.value = SoundManager.Instance.SFXVolume;
+            sfxSlider.onValueChanged.AddListener(SetSFXVolume);
+        }
     }
+
     public void UpdateWarfunds(int amount)
     {
-      
         _warfundsText.text = amount.ToString();
     }
 
@@ -48,18 +69,9 @@ public class UIManager : MonoBehaviour
         _hPText.text = hp.ToString();
         string status = "Good";
 
-        if (hp <= 2)
-        {
-            status = "Critical";
-        }
-        else if (hp <= 5)
-        {
-            status = "Danger";
-        }
-        else if (hp <= 8)
-        {
-            status = "Caution";
-        }
+        if (hp <= 2) status = "Critical";
+        else if (hp <= 5) status = "Danger";
+        else if (hp <= 8) status = "Caution";
 
         _statusText.text = status;
     }
@@ -69,20 +81,15 @@ public class UIManager : MonoBehaviour
         _waveCount.text = count.ToString() + " / 20";
     }
 
-    private Turret _currentTur;
-
     public void UpdateUpgrade(Turret tur)
     {
         _currentTur = tur;
         if (tur._weaponIndex == 0)
         {
-          
-            
             _gatUpText.text = PlacementManager.Instance._turretStats[tur._weaponIndex].upgradeCost.ToString();
             _upgradeGatButton.onClick.RemoveAllListeners();
             _upgradeGatButton.onClick.AddListener(tur.Upgrade);
             _upgradeGatButton.onClick.AddListener(ButtonPress);
-
         }
         else if (tur._weaponIndex == 1)
         {
@@ -93,20 +100,17 @@ public class UIManager : MonoBehaviour
         }
 
         tur._turretManager._upgradeButton.SetActive(true);
-
         tur._turretManager._dismantelButton.SetActive(true);
 
         _dismantelRefundText.text = PlacementManager.Instance._turretStats[tur._weaponIndex].singleRefund.ToString();
-    
+
         _acceptDismantel.onClick.RemoveAllListeners();
         _acceptDismantel.onClick.AddListener(tur.Dismantel);
         _acceptDismantel.onClick.AddListener(ButtonPress);
-
     }
 
     public void UpdateNoUpgrade(Turret tur)
     {
-      
         _dismantelRefundText.text = PlacementManager.Instance._turretStats[tur._weaponIndex].doubleRefund.ToString();
         tur._turretManager._dismantelButton.SetActive(true);
         _acceptDismantel.onClick.RemoveAllListeners();
@@ -116,14 +120,8 @@ public class UIManager : MonoBehaviour
 
     public void UpgradeButtonPressed()
     {
-        if(_currentTur._weaponIndex == 0)
-        {
-            _upgradeGatImage.SetActive(true);
-        }
-        else
-        {
-            _upgradeLaunchImage.SetActive(true);
-        }
+        if (_currentTur._weaponIndex == 0) _upgradeGatImage.SetActive(true);
+        else _upgradeLaunchImage.SetActive(true);
     }
 
     public void CancelUpgrade()
@@ -137,5 +135,27 @@ public class UIManager : MonoBehaviour
         _upgradeGatImage.SetActive(false);
         _upgradeLaunchImage.SetActive(false);
         _dismantelImage.SetActive(false);
+    }
+
+    public void EndGame(bool win)
+    {
+        _gameUI.SetActive(false);
+        _endScreen.SetActive(true);
+        _endScreenText.text = win ? "Victory" : "Defeat";
+    }
+
+    private void SetMusicVolume(float value)
+    {
+        SoundManager.Instance.SetMusicVolume(value);
+    }
+
+    private void SetSFXVolume(float value)
+    {
+        SoundManager.Instance.SetSFXVolume(value);
+    }
+
+    public void UIPauseScreen(bool on)
+    {
+        _pauseScreen.SetActive(on);
     }
 }

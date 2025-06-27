@@ -5,13 +5,15 @@ using UnityEngine;
 public class ExplosionDamage : MonoBehaviour
 {
     [SerializeField] LayerMask Enemy;
+    public int damage;
+    [SerializeField] private float _explosionRadius;
     private void Start()
     {
-        Collider[] collider = Physics.OverlapSphere(transform.position, 20, Enemy);
+        Collider[] collider = Physics.OverlapSphere(transform.position, _explosionRadius, Enemy);
 
         foreach (Collider c in collider)
         {
-            c.GetComponent<IDamageable>().TakeDamage(25);
+            c.GetComponent<IDamageable>().TakeDamage(damage);
         }
 
     }

@@ -15,7 +15,9 @@ namespace GameDevHQ.FileBase.Missile_Launcher
 
         [SerializeField] private List<GameObject> _missileSingle = new List<GameObject>();
         [SerializeField] private List<GameObject> _missileDouble = new List<GameObject>();
-
+        [SerializeField] private float _singleTickRate, _doubleTickRate;
+        [SerializeField] private int _singleDamage, _doubleDamage;
+        private int _damage;
         [SerializeField]
         private float _destroyTime = 10.0f; 
 
@@ -32,6 +34,8 @@ namespace GameDevHQ.FileBase.Missile_Launcher
         {
             base.Start();
             _missilePositions = _missileSingle;
+            _tickrate = _singleTickRate;
+            _damage = _singleDamage;
         }
 
         protected override void Update()
@@ -85,7 +89,7 @@ namespace GameDevHQ.FileBase.Missile_Launcher
           rocket.transform.localEulerAngles = new Vector3(-90, 0, 0); 
           rocket.transform.parent = null;
 
-            rocket.GetComponent<Missile>().AssignMissleRules(_currentTarget.position, _destroyTime, _flightDuration);
+            rocket.GetComponent<Missile>().AssignMissleRules(_currentTarget.position, _destroyTime, _flightDuration, _damage);
 
             _missilePositions[_missleIndex].SetActive(false); 
 
@@ -128,8 +132,9 @@ namespace GameDevHQ.FileBase.Missile_Launcher
             _isUpgrade = upgraded;
       
             _missilePositions = upgraded ? _missileDouble : _missileSingle;
-            _tickrate = upgraded ? _tickrate / 2 : _tickrate * 2; 
-
+            _tickrate = upgraded ? _doubleTickRate : _singleTickRate; 
+            _damage = upgraded ? _doubleDamage : _singleDamage;
+         
             _singleTurret.SetActive(!upgraded);
             _doubleTurret.SetActive(upgraded);
 
@@ -149,7 +154,8 @@ namespace GameDevHQ.FileBase.Missile_Launcher
             _currentTarget = null;
         }
 
-
     }
+
+
 }
 

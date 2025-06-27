@@ -1,33 +1,58 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    public static event Action<bool> OnPauseChanged;
+
     [SerializeField] private int _hP = 10;
+    private float _currentTimeScale;
+    private float _lastNonZeroTimeScale = 1f;
+
+    public int _warfunds { get; private set; }
 
     private void Awake()
     {
         if (Instance != null && Instance != this)
         {
-            Debug.LogWarning("Duplicate GameManager detected, destroying this one.");
             Destroy(gameObject);
             return;
         }
-
         Instance = this;
-        DontDestroyOnLoad(gameObject); // Optional: bleibt beim Szenenwechsel erhalten
+ 
     }
-
-    public int _warfunds{ private set; get; }
 
     private void Start()
     {
-        _warfunds = 300;
+        _warfunds = 1000;
+        _currentTimeScale = 1f;
+        _lastNonZeroTimeScale = 1f;
+        SetTimeScale(_currentTimeScale);
+
         UpdateUIManager();
         UIManager.Instance.UpdateHP(_hP);
-        
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (Time.timeScale != 0)
+            {
+                UIManager.Instance.UIPauseScreen(true);
+                SetTimeScale(0);
+              
+                OnPauseChanged?.Invoke(true);
+            }
+            else
+            {
+                UIManager.Instance.UIPauseScreen(false);
+                SetTimeScale(_lastNonZeroTimeScale);
+                OnPauseChanged?.Invoke(false);
+            }
+        }
     }
 
     public void AddWarFunds(int funds)
@@ -36,16 +61,14 @@ public class GameManager : MonoBehaviour
         UpdateUIManager();
     }
 
-
     public void PlaceTurret(int cost)
     {
         _warfunds -= cost;
-        UpdateUIManager() ;
+        UpdateUIManager();
     }
 
-    void UpdateUIManager()
+    private void UpdateUIManager()
     {
-       
         UIManager.Instance.UpdateWarfunds(_warfunds);
     }
 
@@ -53,21 +76,39 @@ public class GameManager : MonoBehaviour
     {
         _hP--;
         UIManager.Instance.UpdateHP(_hP);
-       
-        if(_hP <= 0)
+
+        if (_hP <= 0)
         {
-            Debug.Log("EndGame");
+            UIManager.Instance.EndGame(false);
+            WaveManager.Instance.StopAllCoroutines();
+            SetTimeScale(0);
+            OnPauseChanged?.Invoke(true);
         }
     }
 
     public void SetTimeScale(float time)
     {
         Time.timeScale = time;
+        _currentTimeScale = time;
+
+        if (time == 0)
+        {
+            OnPauseChanged?.Invoke(true);
+        }
+        else
+        {
+            OnPauseChanged?.Invoke(false);
+            _lastNonZeroTimeScale = time;
+        }
     }
 
     public void Restart()
     {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void LoadStartScreen()
+    {
         SceneManager.LoadScene(0);
     }
 }
-

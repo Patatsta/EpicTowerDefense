@@ -15,11 +15,3 @@ MonoBehaviour:
   enemies:
   - enemyType: Normal
     amount: 10
-  - enemyType: Crawl
-    amount: 5
-  - enemyType: Tank
-    amount: 1
-  - enemyType: Run
-    amount: 3
-  - enemyType: OffTank
-    amount: 3

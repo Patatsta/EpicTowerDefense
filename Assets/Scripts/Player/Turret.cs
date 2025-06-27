@@ -30,11 +30,12 @@ public abstract class Turret : MonoBehaviour
         _singleTurret.SetActive(true);
         _doubleTurret.SetActive(false);
 
-        // Reset logic
+
         _enemiesInRange.Clear();
         _currentTarget = null;
         _enemyHealth = null;
         _startWeaponNoise = true;
+        GameManager.OnPauseChanged += HandlePauseChanged;
     }
 
     protected virtual void Update()
@@ -73,7 +74,27 @@ public abstract class Turret : MonoBehaviour
             }
         }
     }
+    private void OnDisable()
+    {
+        GameManager.OnPauseChanged -= HandlePauseChanged;
+    }
 
+    protected void HandlePauseChanged(bool isPaused)
+    {
+
+        if (isPaused)
+        {
+            if (_audioSource.isPlaying)
+                _audioSource.Pause(); 
+        }
+        else
+        {
+            if (_currentTarget != null && Time.timeScale > 0)
+            {
+                _audioSource.Play(); 
+            }
+        }
+    }
     private void OnTriggerExit(Collider other)
     {
         if (other == null) return;

@@ -21,6 +21,7 @@ using UnityEngine;
     private float flightDuration = 1f;
     public float arcHeight = 2f;
     private Vector3 startPoint;
+    private int _damage;
    
 
     void Start()
@@ -54,11 +55,12 @@ using UnityEngine;
     }
 
 
-        public void AssignMissleRules(Vector3 target, float destroyTimer, float duration)
+        public void AssignMissleRules(Vector3 target, float destroyTimer, float duration, int dmg)
         {
             _target = new Vector3(target.x, 0, target.z); 
             flightDuration = duration;
             Destroy(this.gameObject, destroyTimer); 
+        _damage = dmg;
         }
 
     private void Explode()
@@ -67,7 +69,9 @@ using UnityEngine;
         if (_explosionPrefab != null)
         {
             GameObject expl = Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
-            Destroy(expl, 1);
+            ExplosionDamage explosionDamage = expl.GetComponent<ExplosionDamage>();
+            if(explosionDamage != null) explosionDamage.damage = _damage;
+            Destroy(expl, 2);
         }
        
         Destroy(this.gameObject);

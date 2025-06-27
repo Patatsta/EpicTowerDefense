@@ -7,13 +7,26 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private Transform _parentObject;
     [SerializeField] private List<WaveData> _waves;
-    [SerializeField] private GameObject[] _enemyPrefabs; // Reihenfolge muss mit enemyType übereinstimmen!
+    [SerializeField] private GameObject[] _enemyPrefabs; 
     [SerializeField] private float _intervalPause, _wavePause;
     private Dictionary<string, Queue<GameObject>> _enemyPools = new Dictionary<string, Queue<GameObject>>();
 
+    public static WaveManager Instance;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void Start()
     {
-        // Pool vorbereiten
         foreach (var prefab in _enemyPrefabs)
         {
             string key = prefab.name;
@@ -22,7 +35,7 @@ public class WaveManager : MonoBehaviour
             for (int i = 0; i < 10; i++)
             {
                 GameObject enemy = Instantiate(prefab, _spawnPoint.position, Quaternion.identity, _parentObject);
-                enemy.name = key; // wichtig für dictionary key!
+                enemy.name = key; 
                 enemy.SetActive(false);
                 _enemyPools[key].Enqueue(enemy);
             }
@@ -38,7 +51,6 @@ public class WaveManager : MonoBehaviour
             UIManager.Instance.UpdateWaveCount(waveIndex + 1);
             WaveData wave = _waves[waveIndex];
 
-            // Alle Gegner dieser Welle sammeln
             List<string> enemiesToSpawn = new List<string>();
             foreach (var entry in wave.enemies)
             {
@@ -48,10 +60,9 @@ public class WaveManager : MonoBehaviour
                 }
             }
 
-            // Liste mischen
             ShuffleList(enemiesToSpawn);
 
-            // Gegner spawnen
+            
             foreach (var enemyType in enemiesToSpawn)
             {
                 GameObject enemy = GetPooledEnemy(enemyType);
@@ -64,8 +75,26 @@ public class WaveManager : MonoBehaviour
                 yield return new WaitForSeconds(_intervalPause);
             }
 
-            yield return new WaitForSeconds(_wavePause); // Pause nach jeder Welle
+            yield return new WaitForSeconds(_wavePause); 
         }
+
+        yield return new WaitUntil(AllEnemiesDefeated);
+
+        UIManager.Instance.EndGame(true);
+        GameManager.Instance.SetTimeScale(0);
+    }
+
+    private bool AllEnemiesDefeated()
+    {
+        foreach (var pool in _enemyPools.Values)
+        {
+            foreach (var enemy in pool)
+            {
+                if (enemy.activeSelf)
+                    return false;
+            }
+        }
+        return true;
     }
 
     private void ShuffleList<T>(List<T> list)
@@ -90,7 +119,7 @@ public class WaveManager : MonoBehaviour
                     return enemy;
             }
 
-            // Wenn alle aktiv sind, erweitern wir den Pool
+
             foreach (var prefab in _enemyPrefabs)
             {
                 if (prefab.name == type)
@@ -108,5 +137,5 @@ public class WaveManager : MonoBehaviour
         return null;
     }
 
-    [SerializeField] private List<Transform> _wayPoints; // vergessen?
+    [SerializeField] private List<Transform> _wayPoints; 
 }

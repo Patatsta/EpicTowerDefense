@@ -12,7 +12,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
     private void Start()
     {
-        // Initial Setup
+ 
         _healthSlider.maxValue = _maxHealth;
         ResetHealth();
     }
@@ -35,6 +35,8 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
         _health -= dmg;
         _healthSlider.value = _health;
+        print(dmg);
+        print(_health);
 
         if (_health <= 0)
         {
@@ -49,7 +51,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         _isDead = true;
         GameManager.Instance.AddWarFunds(_warfunds);
 
-        // Statt Zerstören: Deaktiviere das GameObject (für Pooling)
+    
         gameObject.SetActive(false);
     }
 }
