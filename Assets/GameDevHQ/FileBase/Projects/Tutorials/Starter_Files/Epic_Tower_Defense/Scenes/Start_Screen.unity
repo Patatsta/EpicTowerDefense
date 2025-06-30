@@ -156,7 +156,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -663, y: -273}
+  m_AnchoredPosition: {x: -663, y: -213}
   m_SizeDelta: {x: 857.52, y: 247.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &12562997
@@ -187,7 +187,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Towerdefense
+  m_text: "Epic \nTower Defense"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -256,37 +256,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!1 &17245897
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 17245898}
-  m_Layer: 0
-  m_Name: Point (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &17245898
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 17245897}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -46.89, y: -0.55, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 227796758}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &21353971
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1385,7 +1354,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1929139628}
-  - {fileID: 17245898}
   - {fileID: 1041190849}
   - {fileID: 1446298182}
   - {fileID: 722114367}
@@ -4724,6 +4692,14 @@ PrefabInstance:
       propertyPath: OutputAudioMixerGroup
       value: 
       objectReference: {fileID: -7597324941581308258, guid: 4f026491a75c7dc43bfee805d9ab2871, type: 2}
+    - target: {fileID: 4593134027222657778, guid: 7087843fa6ecbcd49866925e2fc0c4f2, type: 3}
+      propertyPath: sfxSource
+      value: 
+      objectReference: {fileID: 2082687651}
+    - target: {fileID: 4593134027222657778, guid: 7087843fa6ecbcd49866925e2fc0c4f2, type: 3}
+      propertyPath: musicSource
+      value: 
+      objectReference: {fileID: 2082687652}
     - target: {fileID: 6477870796012250360, guid: 7087843fa6ecbcd49866925e2fc0c4f2, type: 3}
       propertyPath: OutputAudioMixerGroup
       value: 
@@ -4907,7 +4883,7 @@ Transform:
   m_GameObject: {fileID: 1041190848}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -40.18, y: -0.55, z: 0}
+  m_LocalPosition: {x: -40.75, y: -0.55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5375,7 +5351,7 @@ MonoBehaviour:
   - {fileID: 1045199064}
   minSpawnInterval: 1
   maxSpawnInterval: 5
-  spawnPoint: {fileID: 1152554180}
+  spawnPoint: {fileID: 1041190849}
 --- !u!1 &1112520818 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1608588648407418, guid: 6758f8713d0664371b044fc62ef04b0a, type: 3}
@@ -10712,6 +10688,16 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 3dac35fc7db3c4796b9a8d62cc0fa4a0, type: 3}
   m_PrefabInstance: {fileID: 2052424245}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &2082687651 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 4496443720642835641, guid: 7087843fa6ecbcd49866925e2fc0c4f2, type: 3}
+  m_PrefabInstance: {fileID: 1012369509}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &2082687652 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 6477870796012250360, guid: 7087843fa6ecbcd49866925e2fc0c4f2, type: 3}
+  m_PrefabInstance: {fileID: 1012369509}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2087409883 stripped
 GameObject:

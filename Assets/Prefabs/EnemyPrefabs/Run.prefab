@@ -322,8 +322,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e5194692627b2e4f912dbcdf11173cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 350
-  _warfunds: 50
+  _maxHealth: 175
+  _warfunds: 15
   _healthSlider: {fileID: 3809151710420959503}
 --- !u!136 &8046717926810755119
 CapsuleCollider:

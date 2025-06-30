@@ -161,13 +161,13 @@ public class UIManager : MonoBehaviour
 
     private void SetMusicVolume(float value)
     {
-        print("changevolume music");
+     
         SoundManager.Instance.SetMusicVolume(value);
     }
 
     private void SetSFXVolume(float value)
     {
-        print("changevolume sfx");
+     
         SoundManager.Instance.SetSFXVolume(value);
     }
 

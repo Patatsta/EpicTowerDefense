@@ -569,6 +569,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3182988389638797643}
     m_Modifications:
+    - target: {fileID: 4581104150509839792, guid: 18993e066cee8bc488b21915d9542a6c, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: b56d887b9ddba5c4f82b76c4b11cfd14, type: 2}
     - target: {fileID: 8493300743421910623, guid: 18993e066cee8bc488b21915d9542a6c, type: 3}
       propertyPath: m_Name
       value: Zombie_4_Rig@Zombie Run

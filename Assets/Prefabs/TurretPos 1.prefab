@@ -1313,7 +1313,6 @@ GameObject:
   - component: {fileID: 7583349312262275869}
   - component: {fileID: 826818019528048241}
   - component: {fileID: 3000459890231257117}
-  - component: {fileID: 4622944111396138670}
   m_Layer: 0
   m_Name: Range (1)
   m_TagString: Untagged
@@ -1386,27 +1385,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &4622944111396138670
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3339713649651572877}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4125976437641311057
 GameObject:
   m_ObjectHideFlags: 0
@@ -1733,7 +1711,6 @@ GameObject:
   - component: {fileID: 2678669593855060157}
   - component: {fileID: 3758464959176206622}
   - component: {fileID: 6467427716466539451}
-  - component: {fileID: 8333395559496718312}
   m_Layer: 0
   m_Name: Range
   m_TagString: Untagged
@@ -1751,7 +1728,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
-  m_LocalScale: {x: 11.58, y: 1.2162474, z: 11.58}
+  m_LocalScale: {x: 14.44605, y: 1.5172687, z: 14.44605}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6529624908391781204}
@@ -1806,27 +1783,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &8333395559496718312
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5929346170836578267}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6210425465689737682
 GameObject:
   m_ObjectHideFlags: 0
@@ -2051,10 +2007,10 @@ MonoBehaviour:
   _double_Barrels:
   - {fileID: 1677492962442981143}
   - {fileID: 1677312496557760955}
-  _singleTickrate: 0.4
+  _singleTickrate: 0.3
   _doubleTickrate: 0.2
-  _singleDamage: 20
-  _doubleDamage: 30
+  _singleDamage: 10
+  _doubleDamage: 25
 --- !u!82 &3225354961036368724
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2170,7 +2126,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 3.979473
+  m_Radius: 5.1452007
   m_Center: {x: -0.057498932, y: 0, z: -0.057500362}
 --- !u!1 &7848124630434837106
 GameObject:
@@ -2363,10 +2319,10 @@ MonoBehaviour:
   - {fileID: 6772448465389760569}
   - {fileID: 6772603510162680995}
   - {fileID: 6773067436270819455}
-  _singleTickRate: 3
-  _doubleTickRate: 2
-  _singleDamage: 5
-  _doubleDamage: 10
+  _singleTickRate: 2
+  _doubleTickRate: 1
+  _singleDamage: 20
+  _doubleDamage: 40
   _destroyTime: 10
   _missleIndex: 0
   _tickrate: 0.2
@@ -3402,6 +3358,10 @@ PrefabInstance:
     - target: {fileID: 562447302919135197, guid: 0b5c65ebf4898f749b9402f842b14dff, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2184442164184765841, guid: 0b5c65ebf4898f749b9402f842b14dff, type: 3}
+      propertyPath: playOnAwake
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6646770410669815346, guid: 0b5c65ebf4898f749b9402f842b14dff, type: 3}
       propertyPath: CollisionModule.type

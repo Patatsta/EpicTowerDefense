@@ -9723,53 +9723,53 @@ MonoBehaviour:
     offtankAmount: 0
     tankAmount: 0
     spawnInterval: 0.5
-  - normalAmount: 20
+  - normalAmount: 25
     crawlingAmount: 10
     runningAmount: 5
+    offtankAmount: 0
+    tankAmount: 0
+    spawnInterval: 0.4
+  - normalAmount: 35
+    crawlingAmount: 15
+    runningAmount: 8
     offtankAmount: 1
     tankAmount: 0
     spawnInterval: 0.4
-  - normalAmount: 25
-    crawlingAmount: 10
-    runningAmount: 8
-    offtankAmount: 2
-    tankAmount: 0
-    spawnInterval: 0.4
-  - normalAmount: 30
-    crawlingAmount: 10
+  - normalAmount: 45
+    crawlingAmount: 15
     runningAmount: 10
     offtankAmount: 3
     tankAmount: 1
     spawnInterval: 0.4
-  - normalAmount: 35
-    crawlingAmount: 15
+  - normalAmount: 55
+    crawlingAmount: 20
     runningAmount: 10
     offtankAmount: 4
     tankAmount: 2
     spawnInterval: 0.3
-  - normalAmount: 40
-    crawlingAmount: 15
+  - normalAmount: 55
+    crawlingAmount: 20
     runningAmount: 15
     offtankAmount: 5
-    tankAmount: 2
-    spawnInterval: 0.3
-  - normalAmount: 45
-    crawlingAmount: 15
-    runningAmount: 15
-    offtankAmount: 6
     tankAmount: 3
+    spawnInterval: 0.3
+  - normalAmount: 55
+    crawlingAmount: 20
+    runningAmount: 15
+    offtankAmount: 12
+    tankAmount: 8
     spawnInterval: 0.2
-  - normalAmount: 50
+  - normalAmount: 55
     crawlingAmount: 20
     runningAmount: 20
-    offtankAmount: 8
-    tankAmount: 4
+    offtankAmount: 15
+    tankAmount: 12
     spawnInterval: 0.2
-  - normalAmount: 60
+  - normalAmount: 55
     crawlingAmount: 20
     runningAmount: 20
-    offtankAmount: 10
-    tankAmount: 5
+    offtankAmount: 20
+    tankAmount: 20
     spawnInterval: 0.2
   _enemyPrefabs:
   - {fileID: 3072552221619453264, guid: 147e83e970f314d4286d4a08105d1a8c, type: 3}
@@ -16234,6 +16234,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1812890943}
     m_Modifications:
+    - target: {fileID: 663190357580773310, guid: 9a628eebe1242ee43b977ac89c78839e, type: 3}
+      propertyPath: _singleDamage
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 2654883177656765807, guid: 9a628eebe1242ee43b977ac89c78839e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

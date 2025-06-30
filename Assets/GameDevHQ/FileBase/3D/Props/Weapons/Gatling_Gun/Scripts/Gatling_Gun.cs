@@ -104,7 +104,7 @@ public class Gatling_Gun : Turret
 
             if (_enemyHealth != null && _currentTarget != null)
             {
-                // Sicherheitshalber nochmal prüfen, dass enemyHealth zum currentTarget passt
+              
                 if (_enemyHealth == _currentTarget.GetComponent<IDamageable>())
                 {
                     _enemyHealth.TakeDamage(_damage);
@@ -114,7 +114,7 @@ public class Gatling_Gun : Turret
                 }
                 else
                 {
-                    // Falls nicht, neu zuweisen
+
                     _enemyHealth = _currentTarget.GetComponent<IDamageable>();
                 }
             }
@@ -137,7 +137,7 @@ public class Gatling_Gun : Turret
         _gat1.SetActive(!upgraded);
         _gat2.SetActive(upgraded);
 
-        // Wichtig: Ziel und enemyHealth neu zuweisen nach Moduswechsel
+     
         if (_enemiesInRange.Count > 0)
         {
             _currentTarget = _enemiesInRange[0];
