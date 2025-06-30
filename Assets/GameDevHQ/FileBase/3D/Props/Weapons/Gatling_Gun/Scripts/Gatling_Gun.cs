@@ -41,11 +41,8 @@ public class Gatling_Gun : Turret
         _audioSource = GetComponent<AudioSource>();
         _audioSource.playOnAwake = false;
         _audioSource.loop = true;
-
-   
     }
 
-   
     protected override void Update()
     {
         if (!_turretManager.IsEnabled) return;
@@ -72,13 +69,15 @@ public class Gatling_Gun : Turret
 
             if (_startWeaponNoise && Time.timeScale > 0)
             {
-                _audioSource.Play();
+                if (!_audioSource.isPlaying)
+                    _audioSource.Play();
                 _startWeaponNoise = false;
             }
         }
         else
         {
-            _audioSource.Stop();
+            if (_audioSource.isPlaying)
+                _audioSource.Stop();
             _startWeaponNoise = true;
         }
     }
@@ -102,10 +101,23 @@ public class Gatling_Gun : Turret
         if (_timer > _tickrate)
         {
             _timer = 0f;
-            _enemyHealth.TakeDamage(_damage);
 
-            foreach (var ps in _bulletCasings)
-                ps.Emit(1);
+            if (_enemyHealth != null && _currentTarget != null)
+            {
+                // Sicherheitshalber nochmal prüfen, dass enemyHealth zum currentTarget passt
+                if (_enemyHealth == _currentTarget.GetComponent<IDamageable>())
+                {
+                    _enemyHealth.TakeDamage(_damage);
+
+                    foreach (var ps in _bulletCasings)
+                        ps.Emit(1);
+                }
+                else
+                {
+                    // Falls nicht, neu zuweisen
+                    _enemyHealth = _currentTarget.GetComponent<IDamageable>();
+                }
+            }
         }
     }
 
@@ -124,6 +136,18 @@ public class Gatling_Gun : Turret
 
         _gat1.SetActive(!upgraded);
         _gat2.SetActive(upgraded);
+
+        // Wichtig: Ziel und enemyHealth neu zuweisen nach Moduswechsel
+        if (_enemiesInRange.Count > 0)
+        {
+            _currentTarget = _enemiesInRange[0];
+            _enemyHealth = _currentTarget.GetComponent<IDamageable>();
+        }
+        else
+        {
+            _currentTarget = null;
+            _enemyHealth = null;
+        }
 
         if (_currentTarget != null && Time.timeScale > 0)
         {
@@ -151,8 +175,4 @@ public class Gatling_Gun : Turret
         _turretManager.Dismantel(_weaponIndex, _isUpgrade);
         SetWeaponMode(false);
     }
-
-  
 }
-
-

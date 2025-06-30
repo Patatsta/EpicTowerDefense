@@ -2,31 +2,52 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EnemyType
+{
+    Normal,
+    Crawling,
+    Running,
+    Offtank,
+    Tank
+}
+
+[System.Serializable]
+public class WaveData
+{
+    public int normalAmount;
+    public int crawlingAmount;
+    public int runningAmount;
+    public int offtankAmount;
+    public int tankAmount;
+    public float spawnInterval = 0.5f; 
+}
+
 public class WaveManager : MonoBehaviour
 {
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private Transform _parentObject;
     [SerializeField] private List<WaveData> _waves;
-    [SerializeField] private GameObject[] _enemyPrefabs; 
-    [SerializeField] private float _intervalPause, _wavePause;
+    [SerializeField] private GameObject[] _enemyPrefabs;
+    [SerializeField] private float _wavePause = 3f;
+    [SerializeField] private List<Transform> _wayPoints;
+
     private Dictionary<string, Queue<GameObject>> _enemyPools = new Dictionary<string, Queue<GameObject>>();
+    private AudioSource _audioSource;
 
     public static WaveManager Instance;
 
     private void Awake()
     {
         if (Instance == null)
-        {
             Instance = this;
-        }
         else
-        {
             Destroy(gameObject);
-        }
     }
 
     private void Start()
     {
+        _audioSource = GetComponent<AudioSource>();
+
         foreach (var prefab in _enemyPrefabs)
         {
             string key = prefab.name;
@@ -35,7 +56,7 @@ public class WaveManager : MonoBehaviour
             for (int i = 0; i < 10; i++)
             {
                 GameObject enemy = Instantiate(prefab, _spawnPoint.position, Quaternion.identity, _parentObject);
-                enemy.name = key; 
+                enemy.name = key;
                 enemy.SetActive(false);
                 _enemyPools[key].Enqueue(enemy);
             }
@@ -48,21 +69,20 @@ public class WaveManager : MonoBehaviour
     {
         for (int waveIndex = 0; waveIndex < _waves.Count; waveIndex++)
         {
-            UIManager.Instance.UpdateWaveCount(waveIndex + 1);
             WaveData wave = _waves[waveIndex];
+            UIManager.Instance.UpdateWaveCount(waveIndex + 1);
+            _audioSource?.Play();
 
             List<string> enemiesToSpawn = new List<string>();
-            foreach (var entry in wave.enemies)
-            {
-                for (int i = 0; i < entry.amount; i++)
-                {
-                    enemiesToSpawn.Add(entry.enemyType);
-                }
-            }
+
+            for (int i = 0; i < wave.normalAmount; i++) enemiesToSpawn.Add("Normal");
+            for (int i = 0; i < wave.crawlingAmount; i++) enemiesToSpawn.Add("Crawl");
+            for (int i = 0; i < wave.runningAmount; i++) enemiesToSpawn.Add("Run");
+            for (int i = 0; i < wave.offtankAmount; i++) enemiesToSpawn.Add("OffTank");
+            for (int i = 0; i < wave.tankAmount; i++) enemiesToSpawn.Add("Tank");
 
             ShuffleList(enemiesToSpawn);
 
-            
             foreach (var enemyType in enemiesToSpawn)
             {
                 GameObject enemy = GetPooledEnemy(enemyType);
@@ -72,13 +92,12 @@ public class WaveManager : MonoBehaviour
                 enemy.GetComponent<Enemy>()?.SetPath(_wayPoints);
                 enemy.SetActive(true);
 
-                yield return new WaitForSeconds(_intervalPause);
+                yield return new WaitForSeconds(wave.spawnInterval);
             }
 
-            yield return new WaitForSeconds(_wavePause); 
+            yield return new WaitUntil(AllEnemiesDefeated);
+            yield return new WaitForSeconds(_wavePause);
         }
-
-        yield return new WaitUntil(AllEnemiesDefeated);
 
         UIManager.Instance.EndGame(true);
         GameManager.Instance.SetTimeScale(0);
@@ -108,7 +127,6 @@ public class WaveManager : MonoBehaviour
         }
     }
 
-
     private GameObject GetPooledEnemy(string type)
     {
         if (_enemyPools.TryGetValue(type, out var pool))
@@ -118,7 +136,6 @@ public class WaveManager : MonoBehaviour
                 if (!enemy.activeSelf)
                     return enemy;
             }
-
 
             foreach (var prefab in _enemyPrefabs)
             {
@@ -136,6 +153,6 @@ public class WaveManager : MonoBehaviour
         Debug.LogWarning($"No prefab found for enemy type: {type}");
         return null;
     }
-
-    [SerializeField] private List<Transform> _wayPoints; 
 }
+
+

@@ -27,6 +27,9 @@ public class UIManager : MonoBehaviour
 
     private Turret _currentTur;
 
+    private AudioSource _audioSource;
+    [SerializeField] private AudioClip _winClip;
+    [SerializeField] private AudioClip _loseClip;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -39,6 +42,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        _audioSource = GetComponent<AudioSource>();
         _pauseScreen.SetActive(false);
         _gameUI.SetActive(true);
         _upgradeGatImage.SetActive(false);
@@ -78,7 +82,7 @@ public class UIManager : MonoBehaviour
 
     public void UpdateWaveCount(int count)
     {
-        _waveCount.text = count.ToString() + " / 20";
+        _waveCount.text = count.ToString() + " / 10";
     }
 
     public void UpdateUpgrade(Turret tur)
@@ -142,15 +146,28 @@ public class UIManager : MonoBehaviour
         _gameUI.SetActive(false);
         _endScreen.SetActive(true);
         _endScreenText.text = win ? "Victory" : "Defeat";
+        if (win)
+        {
+            _audioSource.clip = _winClip;
+        }
+        else
+        {
+            _audioSource.clip = _loseClip;
+        }
+        SoundManager.Instance.StopMusic();
+        _audioSource.Play();
+        GameManager.Instance.GameOver();
     }
 
     private void SetMusicVolume(float value)
     {
+        print("changevolume music");
         SoundManager.Instance.SetMusicVolume(value);
     }
 
     private void SetSFXVolume(float value)
     {
+        print("changevolume sfx");
         SoundManager.Instance.SetSFXVolume(value);
     }
 

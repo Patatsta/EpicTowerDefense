@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int _hP = 10;
     private float _currentTimeScale;
     private float _lastNonZeroTimeScale = 1f;
-
+    private bool _isGameOver = false;   
     public int _warfunds { get; private set; }
 
     private void Awake()
@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        _warfunds = 1000;
+        _warfunds = 800;
         _currentTimeScale = 1f;
         _lastNonZeroTimeScale = 1f;
         SetTimeScale(_currentTimeScale);
@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            if(_isGameOver) return;
             if (Time.timeScale != 0)
             {
                 UIManager.Instance.UIPauseScreen(true);
@@ -110,5 +111,10 @@ public class GameManager : MonoBehaviour
     public void LoadStartScreen()
     {
         SceneManager.LoadScene(0);
+    }
+
+    public void GameOver()
+    {
+        _isGameOver = true;
     }
 }

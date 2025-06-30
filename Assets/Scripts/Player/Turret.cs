@@ -18,18 +18,17 @@ public abstract class Turret : MonoBehaviour
 
     public int _weaponIndex;
     public bool _isUpgrade { get; protected set; }
-   
+
     protected virtual void Start()
-    {  
+    {
         _audioSource = GetComponent<AudioSource>();
-     
         _rotateBody = _rotateSingle;
     }
+
     protected void OnEnable()
     {
         _singleTurret.SetActive(true);
         _doubleTurret.SetActive(false);
-
 
         _enemiesInRange.Clear();
         _currentTarget = null;
@@ -40,17 +39,14 @@ public abstract class Turret : MonoBehaviour
 
     protected virtual void Update()
     {
-       
         _enemiesInRange.RemoveAll(enemy => enemy == null || !enemy.gameObject.activeInHierarchy);
 
-       
         if (_currentTarget == null && _enemiesInRange.Count > 0)
         {
-            _enemyHealth = _enemiesInRange[0].GetComponent<IDamageable>();
             _currentTarget = _enemiesInRange[0];
+            _enemyHealth = _currentTarget.GetComponent<IDamageable>();
         }
 
-     
         if (_currentTarget != null && !_currentTarget.gameObject.activeInHierarchy)
         {
             _enemiesInRange.Remove(_currentTarget);
@@ -59,21 +55,43 @@ public abstract class Turret : MonoBehaviour
         }
     }
 
-
     private void OnTriggerEnter(Collider other)
     {
         if (other == null) return;
         if (other.CompareTag("Enemy"))
         {
-           
             _enemiesInRange.Add(other.transform);
             if (_currentTarget == null)
             {
-                _enemyHealth = other.GetComponent<IDamageable>();
                 _currentTarget = other.transform;
+                _enemyHealth = _currentTarget.GetComponent<IDamageable>();
             }
         }
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other == null) return;
+        if (other.CompareTag("Enemy"))
+        {
+            _enemiesInRange.Remove(other.transform);
+
+            if (_currentTarget == other.transform)
+            {
+                if (_enemiesInRange.Count > 0)
+                {
+                    _currentTarget = _enemiesInRange[0];
+                    _enemyHealth = _currentTarget.GetComponent<IDamageable>();
+                }
+                else
+                {
+                    _currentTarget = null;
+                    _enemyHealth = null;
+                }
+            }
+        }
+    }
+
     private void OnDisable()
     {
         GameManager.OnPauseChanged -= HandlePauseChanged;
@@ -81,41 +99,21 @@ public abstract class Turret : MonoBehaviour
 
     protected void HandlePauseChanged(bool isPaused)
     {
-
         if (isPaused)
         {
             if (_audioSource.isPlaying)
-                _audioSource.Pause(); 
+                _audioSource.Pause();
         }
         else
         {
             if (_currentTarget != null && Time.timeScale > 0)
             {
-                _audioSource.Play(); 
-            }
-        }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other == null) return;
-        if (other.CompareTag("Enemy"))
-        {
-          
-            _enemiesInRange.Remove(other.transform);
-            if (_enemiesInRange.Count > 0)
-            {
-                _enemyHealth = other.GetComponent<IDamageable>();
-                _currentTarget = _enemiesInRange[0];
-            }
-            else
-            {
-                _enemyHealth = null;
-                _currentTarget = null;
+                _audioSource.Play();
             }
         }
     }
 
     public abstract void Upgrade();
     public abstract void Dismantel();
-  
 }
+

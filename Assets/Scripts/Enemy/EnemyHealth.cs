@@ -35,8 +35,8 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
         _health -= dmg;
         _healthSlider.value = _health;
-        print(dmg);
-        print(_health);
+    
+      
 
         if (_health <= 0)
         {

@@ -9,6 +9,7 @@ public class EndPoint : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             other.gameObject.SetActive(false);
+            if(GameManager.Instance != null)
             GameManager.Instance.LoseHP();
         }
     }

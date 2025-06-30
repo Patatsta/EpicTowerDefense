@@ -9,7 +9,7 @@ public class TurretManager : MonoBehaviour
     [SerializeField] private GameObject _missileLauncher;
     [SerializeField] private GameObject _gatPlaceHolder, _misPlaceHolder, _currentPlaceHolder;
     [SerializeField] private GameObject _redMisPlaceHolder, _redGatPlaceHodler;
-    public GameObject _upgradeButton, _dismantelButton;
+    public GameObject _upgradeButton, _dismantelButton, _hoverGate;
     public bool IsEnabled { get; private set; } = false;
  
 
@@ -17,6 +17,7 @@ public class TurretManager : MonoBehaviour
 
     private void Start()
     {
+        _hoverGate.SetActive(false);
         _upgradeButton.SetActive(false);
         _dismantelButton.SetActive(false);
         _turretCollider = GetComponent<Collider>();

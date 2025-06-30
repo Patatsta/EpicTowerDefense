@@ -9,6 +9,12 @@ public class StartScreenManager : MonoBehaviour
     [SerializeField] private Slider musicSlider;
     [SerializeField] private Slider sfxSlider;
 
+    [SerializeField] private GameObject[] _zombiePrefabs;
+    [SerializeField] private Transform[] _zombiePath;
+    [SerializeField] private float minSpawnInterval = 1f;
+    [SerializeField] private float maxSpawnInterval = 5f;
+    [SerializeField] private Transform spawnPoint;
+
     private void Start()
     {
         Time.timeScale = 1.0f;
@@ -21,6 +27,8 @@ public class StartScreenManager : MonoBehaviour
 
         musicSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
         sfxSlider.onValueChanged.AddListener(OnSFXVolumeChanged);
+
+        StartCoroutine(SpawnZombiesRoutine());
     }
 
     private void OnDestroy()
@@ -50,5 +58,24 @@ public class StartScreenManager : MonoBehaviour
     {
         Application.Quit();
     }
+
+    private IEnumerator SpawnZombiesRoutine()
+    {
+        while (true)
+        {
+            float waitTime = Random.Range(minSpawnInterval, maxSpawnInterval);
+            yield return new WaitForSeconds(waitTime);
+
+            GameObject zombiePrefab = _zombiePrefabs[Random.Range(0, _zombiePrefabs.Length)];
+            GameObject newZombie = Instantiate(zombiePrefab, spawnPoint.position, Quaternion.identity);
+
+            Enemy enemy = newZombie.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.SetPath(new List<Transform>(_zombiePath));
+            }
+        }
+    }
 }
+
 

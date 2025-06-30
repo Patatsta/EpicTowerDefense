@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public class SoundManager : MonoBehaviour
 {
@@ -9,8 +10,11 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfxSource;
 
-    private float musicVolume = 1f;
-    private float sfxVolume = 1f;
+    [SerializeField] private AudioClip menuMusic;
+    [SerializeField] private AudioClip gameMusic;
+
+    private float musicVolume = 0.5f;
+    private float sfxVolume = 0.5f;
 
     private void Awake()
     {
@@ -21,7 +25,34 @@ public class SoundManager : MonoBehaviour
             SetMusicVolume(musicVolume);
             SetSFXVolume(sfxVolume);
         }
-        else Destroy(gameObject);
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+  
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.buildIndex == 0)
+        {
+            PlayMusic(menuMusic);
+        }
+        else if (scene.buildIndex == 1)
+        {
+            PlayMusic(gameMusic);
+        }
     }
 
     public void PlaySFX(AudioClip clip)
@@ -39,14 +70,21 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    public void StopMusic()
+    {
+        musicSource.Pause();
+    }
+
     public void SetMusicVolume(float volume)
     {
+   
         musicVolume = Mathf.Clamp01(volume);
         audioMixer.SetFloat("MusicVolume", SliderToDb(musicVolume));
     }
 
     public void SetSFXVolume(float volume)
     {
+    
         sfxVolume = Mathf.Clamp01(volume);
         audioMixer.SetFloat("SFXVolume", SliderToDb(sfxVolume));
     }
@@ -55,12 +93,8 @@ public class SoundManager : MonoBehaviour
 
     public float SFXVolume => sfxVolume;
 
-    
-
     private float SliderToDb(float volume)
     {
         return Mathf.Log10(Mathf.Clamp(volume, 0.0001f, 1f)) * 20f;
     }
 }
-
-
