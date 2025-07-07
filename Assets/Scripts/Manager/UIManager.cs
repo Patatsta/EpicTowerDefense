@@ -90,23 +90,23 @@ public class UIManager : MonoBehaviour
         _currentTur = tur;
         if (tur._weaponIndex == 0)
         {
-            _gatUpText.text = PlacementManager.Instance._turretStats[tur._weaponIndex].upgradeCost.ToString();
+            _gatUpText.text = PlacementManager.Instance.turretStats[tur._weaponIndex].upgradeCost.ToString();
             _upgradeGatButton.onClick.RemoveAllListeners();
             _upgradeGatButton.onClick.AddListener(tur.Upgrade);
             _upgradeGatButton.onClick.AddListener(ButtonPress);
         }
         else if (tur._weaponIndex == 1)
         {
-            _launchUpText.text = PlacementManager.Instance._turretStats[tur._weaponIndex].upgradeCost.ToString();
+            _launchUpText.text = PlacementManager.Instance.turretStats[tur._weaponIndex].upgradeCost.ToString();
             _upgradeLaunchButton.onClick.RemoveAllListeners();
             _upgradeLaunchButton.onClick.AddListener(tur.Upgrade);
             _upgradeLaunchButton.onClick.AddListener(ButtonPress);
         }
 
-        tur._turretManager._upgradeButton.SetActive(true);
-        tur._turretManager._dismantelButton.SetActive(true);
+        tur._turretManager.upgradeButton.SetActive(true);
+        tur._turretManager.dismantelButton.SetActive(true);
 
-        _dismantelRefundText.text = PlacementManager.Instance._turretStats[tur._weaponIndex].singleRefund.ToString();
+        _dismantelRefundText.text = PlacementManager.Instance.turretStats[tur._weaponIndex].singleRefund.ToString();
 
         _acceptDismantel.onClick.RemoveAllListeners();
         _acceptDismantel.onClick.AddListener(tur.Dismantel);
@@ -115,8 +115,8 @@ public class UIManager : MonoBehaviour
 
     public void UpdateNoUpgrade(Turret tur)
     {
-        _dismantelRefundText.text = PlacementManager.Instance._turretStats[tur._weaponIndex].doubleRefund.ToString();
-        tur._turretManager._dismantelButton.SetActive(true);
+        _dismantelRefundText.text = PlacementManager.Instance.turretStats[tur._weaponIndex].doubleRefund.ToString();
+        tur._turretManager.dismantelButton.SetActive(true);
         _acceptDismantel.onClick.RemoveAllListeners();
         _acceptDismantel.onClick.AddListener(tur.Dismantel);
         _acceptDismantel.onClick.AddListener(ButtonPress);

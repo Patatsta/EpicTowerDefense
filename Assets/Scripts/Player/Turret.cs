@@ -17,7 +17,7 @@ public abstract class Turret : MonoBehaviour
     protected IDamageable _enemyHealth;
 
     public int _weaponIndex;
-    public bool _isUpgrade { get; protected set; }
+    public bool isUpgrade { get; protected set; }
 
     protected virtual void Start()
     {

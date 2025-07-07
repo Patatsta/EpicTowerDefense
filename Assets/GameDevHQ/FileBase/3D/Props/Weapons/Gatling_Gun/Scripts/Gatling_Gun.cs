@@ -11,8 +11,8 @@ public class Gatling_Gun : Turret
     [SerializeField] private List<ParticleSystem> _double_BulletCasings = new List<ParticleSystem>();
 
     [Header("Audio")]
-    [SerializeField] private AudioClip fireSound1;
-    [SerializeField] private AudioClip fireSound2;
+    [SerializeField] private AudioClip _fireSound1;
+    [SerializeField] private AudioClip _fireSound2;
 
     [Header("Barrels")]
     [SerializeField] private List<Transform> _single_Barrels = new List<Transform>();
@@ -123,12 +123,12 @@ public class Gatling_Gun : Turret
 
     private void SetWeaponMode(bool upgraded)
     {
-        _isUpgrade = upgraded;
+        isUpgrade = upgraded;
         _muzzle_list = upgraded ? _double_Muzzle_Flash : _single_Muzzle_Flash;
         _bulletCasings = upgraded ? _double_BulletCasings : _single_BulletCasings;
         _barrels = upgraded ? _double_Barrels : _single_Barrels;
 
-        _audioSource.clip = upgraded ? fireSound2 : fireSound1;
+        _audioSource.clip = upgraded ? _fireSound2 : _fireSound1;
 
         _rotateBody = upgraded ? _rotateDouble : _rotateSingle;
         _damage = upgraded ? _doubleDamage : _singleDamage;
@@ -162,8 +162,8 @@ public class Gatling_Gun : Turret
 
     public override void Upgrade()
     {
-        int upgradeCost = PlacementManager.Instance._turretStats[0].upgradeCost;
-        if (GameManager.Instance._warfunds >= upgradeCost)
+        int upgradeCost = PlacementManager.Instance.turretStats[0].upgradeCost;
+        if (GameManager.Instance.warfunds >= upgradeCost)
         {
             GameManager.Instance.PlaceTurret(upgradeCost);
             SetWeaponMode(true);
@@ -172,7 +172,7 @@ public class Gatling_Gun : Turret
 
     public override void Dismantel()
     {
-        _turretManager.Dismantel(_weaponIndex, _isUpgrade);
+        _turretManager.Dismantel(_weaponIndex, isUpgrade);
         SetWeaponMode(false);
     }
 }

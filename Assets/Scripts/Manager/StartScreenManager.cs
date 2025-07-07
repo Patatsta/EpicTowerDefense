@@ -6,14 +6,14 @@ using UnityEngine.SceneManagement;
 
 public class StartScreenManager : MonoBehaviour
 {
-    [SerializeField] private Slider musicSlider;
-    [SerializeField] private Slider sfxSlider;
+    [SerializeField] private Slider _musicSlider;
+    [SerializeField] private Slider _sfxSlider;
 
     [SerializeField] private GameObject[] _zombiePrefabs;
     [SerializeField] private Transform[] _zombiePath;
-    [SerializeField] private float minSpawnInterval = 1f;
-    [SerializeField] private float maxSpawnInterval = 5f;
-    [SerializeField] private Transform spawnPoint;
+    [SerializeField] private float _minSpawnInterval = 1f;
+    [SerializeField] private float _maxSpawnInterval = 5f;
+    [SerializeField] private Transform _spawnPoint;
 
     private void Start()
     {
@@ -21,20 +21,20 @@ public class StartScreenManager : MonoBehaviour
 
         if (SoundManager.Instance != null)
         {
-            musicSlider.value = SoundManager.Instance.MusicVolume;
-            sfxSlider.value = SoundManager.Instance.SFXVolume;
+            _musicSlider.value = SoundManager.Instance.MusicVolume;
+            _sfxSlider.value = SoundManager.Instance.SFXVolume;
         }
 
-        musicSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
-        sfxSlider.onValueChanged.AddListener(OnSFXVolumeChanged);
+        _musicSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
+        _sfxSlider.onValueChanged.AddListener(OnSFXVolumeChanged);
 
         StartCoroutine(SpawnZombiesRoutine());
     }
 
     private void OnDestroy()
     {
-        musicSlider.onValueChanged.RemoveListener(OnMusicVolumeChanged);
-        sfxSlider.onValueChanged.RemoveListener(OnSFXVolumeChanged);
+        _musicSlider.onValueChanged.RemoveListener(OnMusicVolumeChanged);
+        _sfxSlider.onValueChanged.RemoveListener(OnSFXVolumeChanged);
     }
 
     private void OnMusicVolumeChanged(float value)
@@ -63,11 +63,11 @@ public class StartScreenManager : MonoBehaviour
     {
         while (true)
         {
-            float waitTime = Random.Range(minSpawnInterval, maxSpawnInterval);
+            float waitTime = Random.Range(_minSpawnInterval, _maxSpawnInterval);
             yield return new WaitForSeconds(waitTime);
 
             GameObject zombiePrefab = _zombiePrefabs[Random.Range(0, _zombiePrefabs.Length)];
-            GameObject newZombie = Instantiate(zombiePrefab, spawnPoint.position, Quaternion.identity);
+            GameObject newZombie = Instantiate(zombiePrefab, _spawnPoint.position, Quaternion.identity);
 
             Enemy enemy = newZombie.GetComponent<Enemy>();
             if (enemy != null)

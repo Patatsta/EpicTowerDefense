@@ -70,7 +70,7 @@ namespace GameDevHQ.FileBase.Missile_Launcher
             if (directionToTarget.sqrMagnitude < 0.001f) return;
 
             Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
-            Quaternion tiltRotation = Quaternion.Euler(-45f, 0f, 0f);
+            Quaternion tiltRotation = Quaternion.Euler(-20f, 0f, 0f);
 
             _rotateBody.transform.rotation = lookRotation * tiltRotation;
         }
@@ -105,23 +105,23 @@ namespace GameDevHQ.FileBase.Missile_Launcher
 
         public override void Upgrade()
         {
-            if (GameManager.Instance._warfunds >= PlacementManager.Instance._turretStats[1].upgradeCost)
+            if (GameManager.Instance.warfunds >= PlacementManager.Instance.turretStats[1].upgradeCost)
             {
-                GameManager.Instance.PlaceTurret(PlacementManager.Instance._turretStats[1].upgradeCost);
+                GameManager.Instance.PlaceTurret(PlacementManager.Instance.turretStats[1].upgradeCost);
                 SetWeaponMode(true);
             }
         }
 
         public override void Dismantel()
         {
-            _turretManager.Dismantel(_weaponIndex, _isUpgrade);
+            _turretManager.Dismantel(_weaponIndex, isUpgrade);
             SetWeaponMode(false);
             _audioSource.Stop();
         }
 
         private void SetWeaponMode(bool upgraded)
         {
-            _isUpgrade = upgraded;
+            isUpgrade = upgraded;
             _missilePositions = upgraded ? _missileDouble : _missileSingle;
             _tickrate = upgraded ? _doubleTickRate : _singleTickRate;
             _damage = upgraded ? _doubleDamage : _singleDamage;

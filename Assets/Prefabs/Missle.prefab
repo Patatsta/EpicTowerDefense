@@ -72,7 +72,7 @@ AudioSource:
   m_GameObject: {fileID: 1408549652012730}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -7597324941581308258, guid: 4f026491a75c7dc43bfee805d9ab2871, type: 2}
   m_audioClip: {fileID: 8300000, guid: 378daef2a0e5f4abe8e7f420838eab41, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.184
@@ -173,6 +173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _particle: {fileID: 198665083162154582}
   _explosionPrefab: {fileID: 1567341239667122, guid: a787b4a495bb64d96830e95e2c353bdd, type: 3}
+  _target: {x: 0, y: 0, z: 0}
   arcHeight: 2
 --- !u!136 &622995038246941556
 CapsuleCollider:

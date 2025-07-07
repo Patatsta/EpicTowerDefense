@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     private float _currentTimeScale;
     private float _lastNonZeroTimeScale = 1f;
     private bool _isGameOver = false;   
-    public int _warfunds { get; private set; }
+    public int warfunds { get; private set; }
 
     private void Awake()
     {
@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        _warfunds = 800;
+        warfunds = 800;
         _currentTimeScale = 1f;
         _lastNonZeroTimeScale = 1f;
         SetTimeScale(_currentTimeScale);
@@ -58,19 +58,19 @@ public class GameManager : MonoBehaviour
 
     public void AddWarFunds(int funds)
     {
-        _warfunds += funds;
+        warfunds += funds;
         UpdateUIManager();
     }
 
     public void PlaceTurret(int cost)
     {
-        _warfunds -= cost;
+        warfunds -= cost;
         UpdateUIManager();
     }
 
     private void UpdateUIManager()
     {
-        UIManager.Instance.UpdateWarfunds(_warfunds);
+        UIManager.Instance.UpdateWarfunds(warfunds);
     }
 
     public void LoseHP()

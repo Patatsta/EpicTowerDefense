@@ -6,15 +6,15 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance;
 
-    [SerializeField] private AudioMixer audioMixer;
-    [SerializeField] private AudioSource musicSource;
-    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioMixer _audioMixer;
+    [SerializeField] private AudioSource _musicSource;
+    [SerializeField] private AudioSource _sfxSource;
 
-    [SerializeField] private AudioClip menuMusic;
-    [SerializeField] private AudioClip gameMusic;
+    [SerializeField] private AudioClip _menuMusic;
+    [SerializeField] private AudioClip _gameMusic;
 
-    private float musicVolume = 0.5f;
-    private float sfxVolume = 0.5f;
+    private float _musicVolume = 0.5f;
+    private float _sfxVolume = 0.5f;
 
     private void Awake()
     {
@@ -22,8 +22,8 @@ public class SoundManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            SetMusicVolume(musicVolume);
-            SetSFXVolume(sfxVolume);
+            SetMusicVolume(_musicVolume);
+            SetSFXVolume(_sfxVolume);
         }
         else
         {
@@ -47,51 +47,51 @@ public class SoundManager : MonoBehaviour
     {
         if (scene.buildIndex == 0)
         {
-            PlayMusic(menuMusic);
+            PlayMusic(_menuMusic);
         }
         else if (scene.buildIndex == 1)
         {
-            PlayMusic(gameMusic);
+            PlayMusic(_gameMusic);
         }
     }
 
     public void PlaySFX(AudioClip clip)
     {
         if (clip != null)
-            sfxSource.PlayOneShot(clip);
+            _sfxSource.PlayOneShot(clip);
     }
 
     public void PlayMusic(AudioClip clip)
     {
         if (clip != null)
         {
-            musicSource.clip = clip;
-            musicSource.Play();
+            _musicSource.clip = clip;
+            _musicSource.Play();
         }
     }
 
     public void StopMusic()
     {
-        musicSource.Pause();
+        _musicSource.Pause();
     }
 
     public void SetMusicVolume(float volume)
     {
    
-        musicVolume = Mathf.Clamp01(volume);
-        audioMixer.SetFloat("MusicVolume", SliderToDb(musicVolume));
+        _musicVolume = Mathf.Clamp01(volume);
+        _audioMixer.SetFloat("MusicVolume", SliderToDb(_musicVolume));
     }
 
     public void SetSFXVolume(float volume)
     {
     
-        sfxVolume = Mathf.Clamp01(volume);
-        audioMixer.SetFloat("SFXVolume", SliderToDb(sfxVolume));
+        _sfxVolume = Mathf.Clamp01(volume);
+        _audioMixer.SetFloat("SFXVolume", SliderToDb(_sfxVolume));
     }
 
-    public float MusicVolume => musicVolume;
+    public float MusicVolume => _musicVolume;
 
-    public float SFXVolume => sfxVolume;
+    public float SFXVolume => _sfxVolume;
 
     private float SliderToDb(float volume)
     {

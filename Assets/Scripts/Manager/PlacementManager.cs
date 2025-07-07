@@ -15,7 +15,7 @@ public class PlacementManager : MonoBehaviour
     [SerializeField] private Turret _currentTurret;
     public static PlacementManager Instance { get; private set; }
 
-    public List<TurretStats> _turretStats = new List<TurretStats>();
+    public List<TurretStats> turretStats = new List<TurretStats>();
     [SerializeField] private GameObject _cancelButton;
 
     [System.Serializable]
@@ -44,10 +44,10 @@ public class PlacementManager : MonoBehaviour
     }
     private void Update()
     {
-        if (GameManager.Instance._warfunds != _lastKnownWarfunds && _isPlacing)
+        if (GameManager.Instance.warfunds != _lastKnownWarfunds && _isPlacing)
         {
            
-            _lastKnownWarfunds = GameManager.Instance._warfunds;
+            _lastKnownWarfunds = GameManager.Instance.warfunds;
 
             if (_lastHovered != null)
             {
@@ -75,11 +75,11 @@ public class PlacementManager : MonoBehaviour
             {
                 if (_lastHovered != null)
                 {
-                    _lastHovered._hoverGate?.SetActive(false);
+                    _lastHovered.hoverGate?.SetActive(false);
                     _lastHovered.TogglePlaceHolder(false, _gunIndex);
                 }
 
-                turret._hoverGate?.SetActive(true);
+                turret.hoverGate?.SetActive(true);
 
                 if (_isPlacing && !turret.IsEnabled)
                 {
@@ -98,7 +98,7 @@ public class PlacementManager : MonoBehaviour
         {
             if (_lastHovered != null)
             {
-                _lastHovered._hoverGate?.SetActive(false);
+                _lastHovered.hoverGate?.SetActive(false);
                 _lastHovered.TogglePlaceHolder(false, _gunIndex);
                 _lastHovered = null;
             }
@@ -106,8 +106,8 @@ public class PlacementManager : MonoBehaviour
             if (_currentTurret != null)
             {
                 _cancelButton.SetActive(false);
-                _currentTurret._turretManager._upgradeButton.SetActive(false);
-                _currentTurret._turretManager._dismantelButton.SetActive(false);
+                _currentTurret._turretManager.upgradeButton.SetActive(false);
+                _currentTurret._turretManager.dismantelButton.SetActive(false);
                 _currentTurret = null;
             }
         }
@@ -120,7 +120,7 @@ public class PlacementManager : MonoBehaviour
         if (EventSystem.current.IsPointerOverGameObject())
             return;
       
-        if (_lastHovered != null && !_lastHovered.IsEnabled && _isPlacing && PlacementManager.Instance._turretStats[_gunIndex].cost <= GameManager.Instance._warfunds)
+        if (_lastHovered != null && !_lastHovered.IsEnabled && _isPlacing && PlacementManager.Instance.turretStats[_gunIndex].cost <= GameManager.Instance.warfunds)
         {
             _cancelButton.SetActive(false);
             _isPlacing = false;
@@ -130,7 +130,7 @@ public class PlacementManager : MonoBehaviour
 
         if (_currentTurret != null)
         {
-            if (!_currentTurret._isUpgrade)
+            if (!_currentTurret.isUpgrade)
             {
                 UIManager.Instance.UpdateUpgrade(_currentTurret);
             }
@@ -145,7 +145,7 @@ public class PlacementManager : MonoBehaviour
     {
         _isPlacing = true;
         _gunIndex = i;
-        _lastKnownWarfunds = GameManager.Instance._warfunds;
+        _lastKnownWarfunds = GameManager.Instance.warfunds;
     }
 
     public void StopPlacing()

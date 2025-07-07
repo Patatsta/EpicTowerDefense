@@ -3452,7 +3452,7 @@ MonoBehaviour:
     m_Bits: 512
   _gunIndex: 0
   _currentTurret: {fileID: 0}
-  _turretStats:
+  turretStats:
   - index: 0
     cost: 200
     upgradeCost: 800
@@ -5516,14 +5516,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7978edb4d8ba0d47809c930eeac9b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 534669905}
-  moveSpeed: 10
-  limitX: {x: -28, y: -10}
-  limitZ: {x: -2, y: 20}
-  zoomSpeed: 1
-  minZoom: -10
-  maxZoom: 4
-  zoomSmoothness: 10
+  _cam: {fileID: 534669905}
+  _moveSpeed: 10
+  _limitX: {x: -33, y: -11}
+  _limitZ: {x: -10, y: 22}
+  _zoomSpeed: 5
+  _minZoom: 5
+  _maxZoom: 20
+  _zoomSmoothness: 10
 --- !u!4 &658585846
 Transform:
   m_ObjectHideFlags: 0
@@ -5533,7 +5533,7 @@ Transform:
   m_GameObject: {fileID: 658585844}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -24.27, y: 11.44, z: 7.05}
+  m_LocalPosition: {x: -27.51, y: 11.44, z: 3.95}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -19081,26 +19081,6 @@ PrefabInstance:
     - target: {fileID: 3021208880426152974, guid: 7087843fa6ecbcd49866925e2fc0c4f2, type: 3}
       propertyPath: m_Name
       value: SoundManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 4496443720642835641, guid: 7087843fa6ecbcd49866925e2fc0c4f2, type: 3}
-      propertyPath: Loop
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4496443720642835641, guid: 7087843fa6ecbcd49866925e2fc0c4f2, type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4593134027222657778, guid: 7087843fa6ecbcd49866925e2fc0c4f2, type: 3}
-      propertyPath: gameMusic
-      value: 
-      objectReference: {fileID: 8300000, guid: 31bc4df4c30339b499ed3fd49d7a0f5b, type: 3}
-    - target: {fileID: 6477870796012250360, guid: 7087843fa6ecbcd49866925e2fc0c4f2, type: 3}
-      propertyPath: Loop
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6477870796012250360, guid: 7087843fa6ecbcd49866925e2fc0c4f2, type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7104763980076983141, guid: 7087843fa6ecbcd49866925e2fc0c4f2, type: 3}
       propertyPath: m_LocalPosition.x

@@ -2,17 +2,17 @@ using UnityEngine;
 
 public class HealthBar : MonoBehaviour
 {
-    private Camera mainCamera;
+    private Camera _mainCamera;
 
     private void Start()
     {
-        mainCamera = Camera.main;
+        _mainCamera = Camera.main;
     }
 
     private void LateUpdate()
     {
-        if (mainCamera == null) return;
+        if (_mainCamera == null) return;
 
-        transform.rotation = mainCamera.transform.rotation;
+        transform.rotation = _mainCamera.transform.rotation;
     }
 }

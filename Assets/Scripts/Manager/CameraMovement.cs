@@ -2,26 +2,26 @@
 
 public class CameraMovement : MonoBehaviour
 {
-    [SerializeField] private Transform cam;
+    [SerializeField] private Transform _cam;
 
     [Header("Movement Settings")]
-    [SerializeField] private float moveSpeed = 10f;
-    [SerializeField] private Vector2 limitX = new Vector2(-10f, 10f);
-    [SerializeField] private Vector2 limitZ = new Vector2(-10f, 10f);
+    [SerializeField] private float _moveSpeed = 10f;
+    [SerializeField] private Vector2 _limitX = new Vector2(-10f, 10f);
+    [SerializeField] private Vector2 _limitZ = new Vector2(-10f, 10f);
 
     [Header("Zoom Settings")]
-    [SerializeField] private float zoomSpeed = 5f;
-    [SerializeField] private float minZoom = 5f;
-    [SerializeField] private float maxZoom = 20f;
-    [SerializeField] private float zoomSmoothness = 10f;
+    [SerializeField] private float _zoomSpeed = 5f;
+    [SerializeField] private float _minZoom = 5f;
+    [SerializeField] private float _maxZoom = 20f;
+    [SerializeField] private float _zoomSmoothness = 10f;
 
-    private float targetZoom;
-    private float currentZoom;
+    private float _targetZoom;
+    private float _currentZoom;
 
     private void Start()
     {
-        currentZoom = cam.localPosition.magnitude;
-        targetZoom = currentZoom;
+        _currentZoom = _cam.localPosition.magnitude;
+        _targetZoom = _currentZoom;
     }
 
     private void Update()
@@ -35,15 +35,15 @@ public class CameraMovement : MonoBehaviour
         float hor = Input.GetAxisRaw("Horizontal");
         float vert = Input.GetAxisRaw("Vertical");
 
-        Vector3 right = new Vector3(cam.right.x, 0, cam.right.z).normalized;
-        Vector3 forward = new Vector3(cam.forward.x, 0, cam.forward.z).normalized;
+        Vector3 right = new Vector3(_cam.right.x, 0, _cam.right.z).normalized;
+        Vector3 forward = new Vector3(_cam.forward.x, 0, _cam.forward.z).normalized;
         Vector3 direction = (right * hor + forward * vert).normalized;
 
-        transform.position += direction * moveSpeed * Time.unscaledDeltaTime;
+        transform.position += direction * _moveSpeed * Time.unscaledDeltaTime;
 
         Vector3 clamped = transform.position;
-        clamped.x = Mathf.Clamp(clamped.x, limitX.x, limitX.y);
-        clamped.z = Mathf.Clamp(clamped.z, limitZ.x, limitZ.y);
+        clamped.x = Mathf.Clamp(clamped.x, _limitX.x, _limitX.y);
+        clamped.z = Mathf.Clamp(clamped.z, _limitZ.x, _limitZ.y);
         transform.position = clamped;
     }
 
@@ -53,12 +53,12 @@ public class CameraMovement : MonoBehaviour
 
         if (Mathf.Abs(scroll) > 0.01f)
         {
-            targetZoom -= scroll * zoomSpeed;
-            targetZoom = Mathf.Clamp(targetZoom, minZoom, maxZoom);
+            _targetZoom -= scroll * _zoomSpeed;
+            _targetZoom = Mathf.Clamp(_targetZoom, _minZoom, _maxZoom);
         }
 
-        currentZoom = Mathf.Lerp(currentZoom, targetZoom, Time.unscaledDeltaTime * zoomSmoothness);
-        cam.localPosition = -cam.forward * currentZoom;
+        _currentZoom = Mathf.Lerp(_currentZoom, _targetZoom, Time.unscaledDeltaTime * _zoomSmoothness);
+        _cam.localPosition = -_cam.forward * _currentZoom;
     }
 }
 

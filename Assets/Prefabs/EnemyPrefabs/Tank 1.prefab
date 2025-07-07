@@ -380,11 +380,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1402c980dde3774a81c178fc77d977f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.4
-  stoppingDistance: 0.1
-  maxOffset: 1
-  rotationSpeed: 5
-  interpolationSteps: 10
+  _moveSpeed: 0.4
+  _stoppingDistance: 0.1
+  _maxOffset: 1
+  _rotationSpeed: 5
+  _interpolationSteps: 10
 --- !u!114 &7847589671929269067
 MonoBehaviour:
   m_ObjectHideFlags: 0
